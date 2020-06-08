@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-service
+  namespace: "apps"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      component: front-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: front-service
+    spec:
+      terminationGracePeriodSeconds: 120
+      containers:
+        - name: service
+          image: rf31415/k8s-handson-front:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
